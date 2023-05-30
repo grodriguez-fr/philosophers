@@ -1,5 +1,8 @@
 SRCS	= src/main.c \
-	  src/utils.c
+	  src/utils.c \
+	  src/init.c \
+	  src/thread.c \
+	  src/exit.c
 INCLUDE_FOLDER	= headers
 
 HEADERS	= headers/philosophers.h
@@ -11,6 +14,7 @@ NAME	= philo
 
 CC	= cc
 CFLAGS	= -Wall -Wextra -Werror
+LIBS    =   -lpthread
 
 $(OBJ_FOLDER)/%.o: src/%.c $(HEADERS)
 	${CC} -I$(INCLUDE_FOLDER) -c $< -o $@ $(CFLAGS)
@@ -18,7 +22,7 @@ $(OBJ_FOLDER)/%.o: src/%.c $(HEADERS)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(HEADERS) Makefile
-	${CC} $(CFLAGS) -o $(NAME) $(OBJS)
+	${CC} $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
 clean :
 	rm -rf $(OBJ_FOLDER)/*.o

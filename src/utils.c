@@ -1,5 +1,15 @@
 #include "philosophers.h"
 
+void    print_log(t_env *env, t_philo *philo, const char *action)
+{
+    if (env->anyone_died == 0 && env->all_finished_eat == 0)
+    {
+        pthread_mutex_lock(env->writing);
+        printf("%llu %d %s\n", get_time() - env->time_start, philo->id, action);
+        pthread_mutex_unlock(env->writing);
+    }
+}
+
 void ft_putstr_err(const char *str)
 {
 	int	i;
@@ -27,4 +37,25 @@ int	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 		res = res * 10 + sign * (str[i++] - '0');
 	return (res);
+}
+
+long long    get_time()
+{
+    struct timeval  tv;
+
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+void    checked_sleep(long long time, t_env *env)
+{
+	long long i;
+
+	i = get_time();
+	while (!(env->anyone_died) && !(env->all_finished_eat))
+	{
+		if ((get_time() - i) >= time)
+			break ;
+		usleep(50);
+	}
 }
