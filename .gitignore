@@ -1,3 +1,4 @@
 philo/philo
 philo/obj/*.o
 philo/*.swp
+*.vscode

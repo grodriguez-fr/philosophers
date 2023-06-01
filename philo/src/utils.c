@@ -63,8 +63,17 @@ void	checked_sleep(long long time, t_env *env)
 	long long	i;
 
 	i = get_time();
-	while (!(env->anyone_died) && !(env->all_finished_eat))
+	while (1)
 	{
+		printf("debut boucle\n");
+		pthread_mutex_lock(env->end_simulation);
+		if (env->anyone_died || env->all_finished_eat)
+		{
+			pthread_mutex_unlock(env->end_simulation);
+			break;
+		}
+		pthread_mutex_unlock(env->end_simulation);
+		printf("ici %llu\n", get_time() - i);
 		if ((get_time() - i) >= time)
 			break ;
 		usleep(50);

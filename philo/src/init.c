@@ -23,9 +23,13 @@ int	init_mutex(t_env *env)
 		return (0);
 	pthread_mutex_init(env->writing, NULL);
 	env->meal = malloc(sizeof(pthread_mutex_t));
-	if (!env->writing)
+	if (!env->meal)
 		return (0);
 	pthread_mutex_init(env->meal, NULL);
+	env->end_simulation = malloc(sizeof(pthread_mutex_t));
+	if (!env->end_simulation)
+		return (0);
+	pthread_mutex_init(env->end_simulation, NULL);
 	return (1);
 }
 
@@ -80,6 +84,7 @@ int	init_vars(int argc, char **argv, t_env *env)
 	env->nb_philo = 0;
 	env->writing = NULL;
 	env->meal = NULL;
+	env->end_simulation = NULL;
 	if (argc != 5 && argc != 6)
 		return (ft_putstr_err("Wrong arg number, usage : ./philo [nb] \
 		[time_die] [time_eat] [time_sleep]\n"), 0);

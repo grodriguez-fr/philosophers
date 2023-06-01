@@ -41,6 +41,7 @@ typedef struct s_env
 	long long		time_start;
 	pthread_mutex_t	*writing;
 	pthread_mutex_t	*meal;
+	pthread_mutex_t	*end_simulation;
 	pthread_mutex_t	*forks;
 	t_philo			*philosophers;
 }	t_env;
@@ -53,4 +54,5 @@ void		exit_philo(t_env *env, int exit_code);
 void		print_log(t_env *env, t_philo *philo, const char *action);
 void		checked_sleep(long long time, t_env *env);
 long long	get_time(void);
+void		*routine(void *philo_void);
 #endif
