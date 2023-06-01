@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:48:02 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/01 10:50:02 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/01 11:25:42 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -82,10 +82,10 @@ int	init_vars(int argc, char **argv, t_env *env)
 	env->meal = NULL;
 	if (argc != 5 && argc != 6)
 		return (ft_putstr_err("Wrong arg number, usage : ./philo [nb] \
-		[time_die] [time_eat] [time_sleep]"), 0);
+		[time_die] [time_eat] [time_sleep]\n"), 0);
 	if (!check_vars(argv))
 	{
-		return (ft_putstr_err("Enter numeric arguments only"), 0);
+		return (ft_putstr_err("Enter numeric arguments only\n"), 0);
 	}
 	env->nb_philo = ft_atoi(argv[1]);
 	env->time_die = ft_atoi(argv[2]);
