@@ -1,3 +1,3 @@
-philo
-obj/*.o
-*.swp
+philo/philo
+philo/obj/*.o
+philo/*.swp
