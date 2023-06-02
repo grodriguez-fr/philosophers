@@ -6,7 +6,7 @@
 #    By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/01 11:21:47 by gurodrig          #+#    #+#              #
-#    Updated: 2023/06/01 14:12:26 by gurodrig         ###   ########.fr        #
+#    Updated: 2023/06/02 15:47:03 by gurodrig         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 SRCS	= src/main.c \
@@ -22,8 +22,8 @@ OBJS	= $(addprefix $(OBJ_FOLDER)/, $(notdir $(SRCS:.c=.o)))
 NAME	= philo
 
 CC	= cc
-CFLAGS	= -Wall -Wextra -Werror -fsanitize=thread
-LIBS    =   -lpthread
+CFLAGS	= -Wall -Wextra -Werror
+LIBS    =  -lpthread
 
 $(OBJ_FOLDER)/%.o: src/%.c $(HEADERS) Makefile
 	${CC} -I$(INCLUDE_FOLDER) -c $< -o $@ $(CFLAGS)

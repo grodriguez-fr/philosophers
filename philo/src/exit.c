@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:40:36 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/01 10:41:29 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/02 12:01:01 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -33,5 +33,7 @@ void	exit_philo(t_env *env, int exit_code)
 		free(env->writing);
 	if (env->meal)
 		free(env->meal);
+	if (env->fork_values)
+		free(env->fork_values);
 	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:56:20 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/01 11:12:08 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:51:07 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -38,6 +38,7 @@ typedef struct s_env
 	int				nb_eat;
 	int				anyone_died;
 	int				all_finished_eat;
+	int				*fork_values;
 	long long		time_start;
 	pthread_mutex_t	*writing;
 	pthread_mutex_t	*meal;
@@ -51,7 +52,7 @@ int			init_env(int argc, char **argv, t_env *env);
 int			start_thread(t_env *env);
 void		ft_putstr_err(const char *str);
 void		exit_philo(t_env *env, int exit_code);
-void		print_log(t_env *env, t_philo *philo, const char *action);
+void		print_log(t_env *e, t_philo *phi, const char *action, int check);
 void		checked_sleep(long long time, t_env *env);
 long long	get_time(void);
 void		*routine(void *philo_void);

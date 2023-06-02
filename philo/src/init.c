@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:48:02 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/01 11:25:42 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:49:53 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -43,6 +43,9 @@ int	init_philo(t_env *env)
 	env->philosophers = malloc(sizeof(pthread_mutex_t) * env->nb_philo);
 	if (!env->philosophers)
 		return (0);
+	env->fork_values = malloc(sizeof(int) * env->nb_philo);
+	if (!env->fork_values)
+		return (0);
 	i = 0;
 	while (i < env->nb_philo)
 	{
@@ -52,6 +55,7 @@ int	init_philo(t_env *env)
 		env->philosophers[i].right_fork_id = i;
 		env->philosophers[i].last_meal = 0;
 		env->philosophers[i].env = env;
+		env->fork_values[i] = 1;
 		i++;
 	}
 	return (1);
@@ -81,6 +85,7 @@ int	init_vars(int argc, char **argv, t_env *env)
 {
 	env->philosophers = NULL;
 	env->forks = NULL;
+	env->fork_values = NULL;
 	env->nb_philo = 0;
 	env->writing = NULL;
 	env->meal = NULL;
@@ -89,9 +94,7 @@ int	init_vars(int argc, char **argv, t_env *env)
 		return (ft_putstr_err("Wrong arg number, usage : ./philo [nb] \
 		[time_die] [time_eat] [time_sleep]\n"), 0);
 	if (!check_vars(argv))
-	{
 		return (ft_putstr_err("Enter numeric arguments only\n"), 0);
-	}
 	env->nb_philo = ft_atoi(argv[1]);
 	env->time_die = ft_atoi(argv[2]);
 	env->time_eat = ft_atoi(argv[3]);
