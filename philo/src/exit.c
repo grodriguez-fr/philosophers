@@ -27,6 +27,10 @@ void	exit_philo(t_env *env, int exit_code)
 		pthread_mutex_destroy(&env->forks[i++]);
 	if (env->writing)
 		pthread_mutex_destroy(env->writing);
+	if (env->end_simulation)
+		pthread_mutex_destroy(env->writing);
+	if (env->end_simulation)
+		free(env->end_simulation);
 	if (env->forks)
 		free(env->forks);
 	if (env->philosophers)
