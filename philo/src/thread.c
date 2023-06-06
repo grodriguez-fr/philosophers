@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:41:47 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/06 10:36:23 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:17:37 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -16,9 +16,9 @@ void	check_death(t_env *env)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(env->meal);
 	while (i < env->nb_philo)
 	{
+		pthread_mutex_lock(&env->philosophers[i].meal);
 		if (env->philosophers[i++].last_meal + env->time_die < get_time())
 		{
 			print_log(env, &env->philosophers[i - 1], "died", 0);
@@ -26,27 +26,39 @@ void	check_death(t_env *env)
 			env->anyone_died++;
 			pthread_mutex_unlock(env->end_simulation);
 		}
+		pthread_mutex_unlock(&env->philosophers[i].meal);
 	}
-	pthread_mutex_unlock(env->meal);
+}
+
+void	check_meals(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (i < env->nb_philo && env->nb_eat != -1)
+	{
+		pthread_mutex_lock(&env->philosophers[i].meal);
+		if (env->philosophers[i].times_ate >= env->nb_eat)
+			i++;
+		else
+		{
+			pthread_mutex_unlock(&env->philosophers[i].meal);
+			return ;
+		}
+		pthread_mutex_unlock(&env->philosophers[i].meal);
+	}
+	pthread_mutex_lock(env->end_simulation);
+	if (i == env->nb_philo)
+		env->all_finished_eat = 1;
+	pthread_mutex_unlock(env->end_simulation);
 }
 
 void	check_death_and_eats(t_env *env)
 {
-	int	i;
-
 	while (!env->anyone_died && !env->all_finished_eat)
 	{
 		check_death(env);
-		i = 0;
-		pthread_mutex_lock(env->meal);
-		while (i < env->nb_philo && env->philosophers[i].times_ate \
-				>= env->nb_eat && env->nb_eat != -1)
-			i++;
-		pthread_mutex_unlock(env->meal);
-		pthread_mutex_lock(env->end_simulation);
-		if (i == env->nb_philo)
-			env->all_finished_eat = 1;
-		pthread_mutex_unlock(env->end_simulation);
+		check_meals(env);
 		usleep(100);
 	}
 }

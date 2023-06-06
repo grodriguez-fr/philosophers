@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:48:31 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/02 15:46:34 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:18:30 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -47,10 +47,10 @@ void	philo_eat(t_env *env, t_philo *philo)
 	lock_forks(env, philo);
 	print_log(env, philo, "is eating", 1);
 	checked_sleep(env->time_eat, env);
-	pthread_mutex_lock(env->meal);
+	pthread_mutex_lock(&philo->meal);
 	philo->times_ate++;
 	philo->last_meal = get_time();
-	pthread_mutex_unlock(env->meal);
+	pthread_mutex_unlock(&philo->meal);
 	env->fork_values[philo->left_fork_id] = 1;
 	pthread_mutex_unlock(&env->forks[philo->left_fork_id]);
 	env->fork_values[philo->right_fork_id] = 1;

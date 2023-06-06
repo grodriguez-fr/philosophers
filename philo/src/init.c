@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:48:02 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/02 14:49:53 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:16:26 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -22,10 +22,6 @@ int	init_mutex(t_env *env)
 	if (!env->writing)
 		return (0);
 	pthread_mutex_init(env->writing, NULL);
-	env->meal = malloc(sizeof(pthread_mutex_t));
-	if (!env->meal)
-		return (0);
-	pthread_mutex_init(env->meal, NULL);
 	env->end_simulation = malloc(sizeof(pthread_mutex_t));
 	if (!env->end_simulation)
 		return (0);
@@ -56,6 +52,7 @@ int	init_philo(t_env *env)
 		env->philosophers[i].last_meal = 0;
 		env->philosophers[i].env = env;
 		env->fork_values[i] = 1;
+		pthread_mutex_init(&env->philosophers[i].meal, NULL);
 		i++;
 	}
 	return (1);
@@ -88,7 +85,6 @@ int	init_vars(int argc, char **argv, t_env *env)
 	env->fork_values = NULL;
 	env->nb_philo = 0;
 	env->writing = NULL;
-	env->meal = NULL;
 	env->end_simulation = NULL;
 	if (argc != 5 && argc != 6)
 		return (ft_putstr_err("Wrong arg number, usage : ./philo [nb] \

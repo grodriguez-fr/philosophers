@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:56:20 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/02 14:51:07 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:15:57 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -27,6 +27,7 @@ typedef struct s_philo
 	long long		last_meal;
 	struct s_env	*env;
 	pthread_t		thread_id;
+	pthread_mutex_t	meal;
 }	t_philo;
 
 typedef struct s_env
@@ -41,7 +42,6 @@ typedef struct s_env
 	int				*fork_values;
 	long long		time_start;
 	pthread_mutex_t	*writing;
-	pthread_mutex_t	*meal;
 	pthread_mutex_t	*end_simulation;
 	pthread_mutex_t	*forks;
 	t_philo			*philosophers;
