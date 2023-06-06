@@ -29,28 +29,28 @@ void	lock_forks(t_env *env, t_philo *philo)
 	if (philo->left_fork_id > philo->right_fork_id)
 	{
 		lock_fork(env, philo->left_fork_id);
-		print_log(env, philo, "has taken a fork", 1);
+		print_log(env, philo, "has taken a fork");
 		lock_fork(env, philo->right_fork_id);
-		print_log(env, philo, "has taken a fork", 1);
+		print_log(env, philo, "has taken a fork");
 	}
 	else
 	{
 		lock_fork(env, philo->right_fork_id);
-		print_log(env, philo, "has taken a fork", 1);
+		print_log(env, philo, "has taken a fork");
 		lock_fork(env, philo->left_fork_id);
-		print_log(env, philo, "has taken a fork", 1);
+		print_log(env, philo, "has taken a fork");
 	}
 }
 
 void	philo_eat(t_env *env, t_philo *philo)
 {
 	lock_forks(env, philo);
-	print_log(env, philo, "is eating", 1);
+	print_log(env, philo, "is eating");
 	checked_sleep(env->time_eat, env);
-	pthread_mutex_lock(&philo->meal);
+	pthread_mutex_lock(philo->meal);
 	philo->times_ate++;
 	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->meal);
+	pthread_mutex_unlock(philo->meal);
 	env->fork_values[philo->left_fork_id] = 1;
 	pthread_mutex_unlock(&env->forks[philo->left_fork_id]);
 	env->fork_values[philo->right_fork_id] = 1;
@@ -59,7 +59,7 @@ void	philo_eat(t_env *env, t_philo *philo)
 
 void	one_fork_routine(t_env *env, t_philo *philo)
 {
-	print_log(env, philo, "has taken a fork", 1);
+	print_log(env, philo, "has taken a fork");
 	checked_sleep(env->time_die * 2, env);
 }
 
@@ -84,9 +84,10 @@ void	*routine(void *philo_void)
 		}
 		pthread_mutex_unlock(env->end_simulation);
 		philo_eat(env, philo);
-		print_log(env, philo, "is sleeping", 1);
+		print_log(env, philo, "is sleeping");
 		checked_sleep(env->time_sleep, env);
-		print_log(env, philo, "is thinking", 1);
+		print_log(env, philo, "is thinking");
+        usleep(100);
 	}
 	return (NULL);
 }

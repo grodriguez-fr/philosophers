@@ -19,7 +19,8 @@ void	exit_philo(t_env *env, int exit_code)
 	while (i < env->nb_philo)
 	{
 		pthread_join(env->philosophers[i].thread_id, NULL);
-		pthread_mutex_destroy(&env->philosophers[i++].meal);
+		pthread_mutex_destroy(env->philosophers[i].meal);
+        free(env->philosophers[i++].meal);
 	}
 	i = 0;
 	while (i < env->nb_philo)

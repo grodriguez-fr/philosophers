@@ -27,7 +27,7 @@ typedef struct s_philo
 	long long		last_meal;
 	struct s_env	*env;
 	pthread_t		thread_id;
-	pthread_mutex_t	meal;
+	pthread_mutex_t	*meal;
 }	t_philo;
 
 typedef struct s_env
@@ -52,7 +52,7 @@ int			init_env(int argc, char **argv, t_env *env);
 int			start_thread(t_env *env);
 void		ft_putstr_err(const char *str);
 void		exit_philo(t_env *env, int exit_code);
-void		print_log(t_env *e, t_philo *phi, const char *action, int check);
+void		print_log(t_env *env, t_philo *phi, const char *action);
 void		checked_sleep(long long time, t_env *env);
 long long	get_time(void);
 void		*routine(void *philo_void);

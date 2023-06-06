@@ -18,15 +18,16 @@ void	check_death(t_env *env)
 	i = 0;
 	while (i < env->nb_philo)
 	{
-		pthread_mutex_lock(&env->philosophers[i].meal);
-		if (env->philosophers[i++].last_meal + env->time_die < get_time())
+		pthread_mutex_lock(env->philosophers[i].meal);
+		if (env->philosophers[i].last_meal + env->time_die < get_time())
 		{
-			print_log(env, &env->philosophers[i - 1], "died", 0);
+			print_log(env, &env->philosophers[i], "died");
 			pthread_mutex_lock(env->end_simulation);
 			env->anyone_died++;
 			pthread_mutex_unlock(env->end_simulation);
 		}
-		pthread_mutex_unlock(&env->philosophers[i].meal);
+		pthread_mutex_unlock(env->philosophers[i].meal);
+        i++;
 	}
 }
 
@@ -37,15 +38,14 @@ void	check_meals(t_env *env)
 	i = 0;
 	while (i < env->nb_philo && env->nb_eat != -1)
 	{
-		pthread_mutex_lock(&env->philosophers[i].meal);
-		if (env->philosophers[i].times_ate >= env->nb_eat)
-			i++;
-		else
+		pthread_mutex_lock(env->philosophers[i].meal);
+		if (env->philosophers[i].times_ate < env->nb_eat)
 		{
-			pthread_mutex_unlock(&env->philosophers[i].meal);
+			pthread_mutex_unlock(env->philosophers[i].meal);
 			return ;
 		}
-		pthread_mutex_unlock(&env->philosophers[i].meal);
+		pthread_mutex_unlock(env->philosophers[i].meal);
+        i++;
 	}
 	pthread_mutex_lock(env->end_simulation);
 	if (i == env->nb_philo)
