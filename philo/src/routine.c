@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:48:31 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/15 13:36:46 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/15 13:41:26 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -87,7 +87,7 @@ void	*routine(void *philo_void)
 		print_log(env, philo, "is sleeping");
 		checked_sleep(env->time_sleep, env);
 		print_log(env, philo, "is thinking");
-		checked_sleep(500, env);
+		usleep(500);
 	}
 	return (NULL);
 }
