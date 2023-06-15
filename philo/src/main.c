@@ -15,8 +15,10 @@ int	main(int argc, char **argv)
 {
 	t_env	env;
 
+	printf("ici\n");
 	if (!init_env(argc, argv, &env))
 		exit_philo(&env, 1);
+	printf("ici\n");
 	start_thread(&env);
 	exit_philo(&env, 0);
 	return (0);

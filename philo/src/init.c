@@ -26,9 +26,6 @@ int	init_mutex(t_env *env)
 	if (!env->end_simulation)
 		return (0);
 	pthread_mutex_init(env->end_simulation, NULL);
-	env->fork_values = malloc(sizeof(int) * env->nb_philo);
-	if (!env->fork_values)
-		return (0);
 	return (1);
 }
 
@@ -36,11 +33,11 @@ int	init_philo(t_env *env)
 {
 	int	i;
 
-	env->forks = malloc(sizeof(pthread_mutex_t) * env->nb_philo);
-	if (!env->forks)
-		return (0);
 	env->philosophers = malloc(sizeof(t_philo) * env->nb_philo);
 	if (!env->philosophers)
+		return (0);
+	env->fork_values = malloc(sizeof(int) * env->nb_philo);
+	if (!env->fork_values)
 		return (0);
 	i = 0;
 	while (i < env->nb_philo)
@@ -112,6 +109,9 @@ int	init_vars(int argc, char **argv, t_env *env)
 int	init_env(int argc, char **argv, t_env *env)
 {
 	if (!init_vars(argc, argv, env))
+		return (0);
+	env->forks = malloc(sizeof(pthread_mutex_t) * env->nb_philo);
+	if (!env->forks)
 		return (0);
 	if (!init_philo(env))
 		return (0);
