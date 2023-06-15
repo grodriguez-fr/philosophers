@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:47:32 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/02 15:42:26 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/15 13:19:04 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -14,15 +14,13 @@
 void	print_log(t_env *env, t_philo *philo, const char *action)
 {
 	pthread_mutex_lock(env->end_simulation);
-	if (env->anyone_died || env->all_finished_eat)
+	if (!(env->anyone_died || env->all_finished_eat))
 	{
-		pthread_mutex_unlock(env->end_simulation);
-		return ;
+		pthread_mutex_lock(env->writing);
+		printf("%llu %d %s\n", get_time() - env->time_start, philo->id, action);
+		pthread_mutex_unlock(env->writing);
 	}
 	pthread_mutex_unlock(env->end_simulation);
-	pthread_mutex_lock(env->writing);
-	printf("%llu %d %s\n", get_time() - env->time_start, philo->id, action);
-	pthread_mutex_unlock(env->writing);
 }
 
 void	ft_putstr_err(const char *str)

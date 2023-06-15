@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:41:47 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/06 14:17:37 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/15 13:17:26 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -21,10 +21,12 @@ void	check_death(t_env *env)
 		pthread_mutex_lock(env->philosophers[i].meal);
 		if (env->philosophers[i].last_meal + env->time_die < get_time())
 		{
-			print_log(env, &env->philosophers[i], "died");
 			pthread_mutex_lock(env->end_simulation);
 			env->anyone_died++;
 			pthread_mutex_unlock(env->end_simulation);
+			printf("%llu %d died\n", get_time() - env->time_start, i);
+			pthread_mutex_unlock(env->philosophers[i].meal);
+			return ;
 		}
 		pthread_mutex_unlock(env->philosophers[i].meal);
 		i++;
