@@ -6,7 +6,7 @@
 /*   By: gurodrig <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:48:31 by gurodrig          #+#    #+#             */
-/*   Updated: 2023/06/15 13:34:01 by gurodrig         ###   ########.fr       */
+/*   Updated: 2023/06/15 13:36:46 by gurodrig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philosophers.h"
@@ -25,6 +25,8 @@ void	lock_fork(t_env *env, int id_fork)
 }
 
 void	lock_forks(t_env *env, t_philo *philo)
+{
+	if (philo->left_fork_id > philo->right_fork_id)
 	{
 		lock_fork(env, philo->left_fork_id);
 		print_log(env, philo, "has taken a fork");
