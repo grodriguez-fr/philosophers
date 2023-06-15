@@ -19,7 +19,7 @@ void	print_log(t_env *env, t_philo *philo, const char *action)
 		pthread_mutex_unlock(env->end_simulation);
 		return ;
 	}
-    pthread_mutex_unlock(env->end_simulation);
+	pthread_mutex_unlock(env->end_simulation);
 	pthread_mutex_lock(env->writing);
 	printf("%llu %d %s\n", get_time() - env->time_start, philo->id, action);
 	pthread_mutex_unlock(env->writing);

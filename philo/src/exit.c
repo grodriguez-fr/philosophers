@@ -11,20 +11,8 @@
 /* ************************************************************************** */
 #include "philosophers.h"
 
-void	exit_philo(t_env *env, int exit_code)
+void	exit_philo_p2(t_env *env)
 {
-	int	i;
-
-	i = 0;
-	while (i < env->nb_philo)
-	{
-		pthread_join(env->philosophers[i].thread_id, NULL);
-		pthread_mutex_destroy(env->philosophers[i].meal);
-        free(env->philosophers[i++].meal);
-	}
-	i = 0;
-	while (i < env->nb_philo)
-		pthread_mutex_destroy(&env->forks[i++]);
 	if (env->writing)
 		pthread_mutex_destroy(env->writing);
 	if (env->end_simulation)
@@ -39,5 +27,22 @@ void	exit_philo(t_env *env, int exit_code)
 		free(env->writing);
 	if (env->fork_values)
 		free(env->fork_values);
+}
+
+void	exit_philo(t_env *env, int exit_code)
+{
+	int	i;
+
+	i = 0;
+	while (i < env->nb_philo)
+	{
+		pthread_join(env->philosophers[i].thread_id, NULL);
+		pthread_mutex_destroy(env->philosophers[i].meal);
+		free(env->philosophers[i++].meal);
+	}
+	i = 0;
+	while (i < env->nb_philo)
+		pthread_mutex_destroy(&env->forks[i++]);
+	exit_philo_p2(env);
 	exit(exit_code);
 }

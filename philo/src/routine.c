@@ -87,7 +87,7 @@ void	*routine(void *philo_void)
 		print_log(env, philo, "is sleeping");
 		checked_sleep(env->time_sleep, env);
 		print_log(env, philo, "is thinking");
-        usleep(100);
+		usleep(100);
 	}
 	return (NULL);
 }

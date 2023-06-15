@@ -27,7 +27,7 @@ void	check_death(t_env *env)
 			pthread_mutex_unlock(env->end_simulation);
 		}
 		pthread_mutex_unlock(env->philosophers[i].meal);
-        i++;
+		i++;
 	}
 }
 
@@ -45,7 +45,7 @@ void	check_meals(t_env *env)
 			return ;
 		}
 		pthread_mutex_unlock(env->philosophers[i].meal);
-        i++;
+		i++;
 	}
 	pthread_mutex_lock(env->end_simulation);
 	if (i == env->nb_philo)

@@ -26,6 +26,9 @@ int	init_mutex(t_env *env)
 	if (!env->end_simulation)
 		return (0);
 	pthread_mutex_init(env->end_simulation, NULL);
+	env->fork_values = malloc(sizeof(int) * env->nb_philo);
+	if (!env->fork_values)
+		return (0);
 	return (1);
 }
 
@@ -39,9 +42,6 @@ int	init_philo(t_env *env)
 	env->philosophers = malloc(sizeof(t_philo) * env->nb_philo);
 	if (!env->philosophers)
 		return (0);
-	env->fork_values = malloc(sizeof(int) * env->nb_philo);
-	if (!env->fork_values)
-		return (0);
 	i = 0;
 	while (i < env->nb_philo)
 	{
@@ -52,11 +52,10 @@ int	init_philo(t_env *env)
 		env->philosophers[i].last_meal = 0;
 		env->philosophers[i].env = env;
 		env->fork_values[i] = 1;
-        env->philosophers[i].meal = malloc(sizeof(pthread_mutex_t));
-        if (!env->philosophers[i].meal)
-            return (0);
-		pthread_mutex_init(env->philosophers[i].meal, NULL);
-		i++;
+		env->philosophers[i].meal = malloc(sizeof(pthread_mutex_t));
+		if (!env->philosophers[i].meal)
+			return (0);
+		pthread_mutex_init(env->philosophers[i++].meal, NULL);
 	}
 	return (1);
 }
